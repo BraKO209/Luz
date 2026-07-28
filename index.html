@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biblioteca de Fresas</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Controles de música interactivos -->
+    <div class="music-controls">
+        <audio id="bg-music" loop>
+            <source src="track1.mp3" type="audio/mpeg">
+        </audio>
+        
+        <button id="play-btn" onclick="toggleMusic()">🎵 Reproducir Fresa</button>
+        
+        <div class="dropdown">
+            <button class="dropbtn" onclick="toggleMenu()">Cambiar Pista ▼</button>
+            <div class="dropdown-content" id="song-list">
+                <a href="#" onclick="changeSong('track1.mp3'); return false;">1. Lofi de Fresas</a>
+                <a href="#" onclick="changeSong('track2.mp3'); return false;">2. Melodía Relajante</a>
+                <a href="#" onclick="changeSong('track3.mp3'); return false;">3. Acústico</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Biblioteca de Madera -->
+    <div class="bookshelf">
+        <!-- Estante 1 -->
+        <div class="shelf">
+            <div class="book color-red tall pattern-stripes" onclick="openPaper('Pedro Salinas — Para vivir no quiero. Para vivir no quiero islas, palacios, torres.¡Qué alegría más altavivir en los pronombres!Quítate ya los trajes,las señas, los retratos;sé tú misma, sin sombra,sin anillos, sin sangre.')"></div>
+            <div class="book color-cream medium" onclick="openPaper('Amado Nervo — Amada Amada, en tus ojos de fuego y calma veo el reflejo de una aurora pura; hay en tus labios una dulce gracia y en tu sonrisa entera hermosura. Eres la luz que ilumina el camino y el centro exacto de mi destino.')"><span>🍓</span></div>
+            <div class="book color-pink short pattern-dots" onclick="openPaper('Pablo Neruda — Soneto XXII Cuántas veces, amor, te amé sin verte y tal vez sin recuerdo, sin reconocer tu mirada, sin mirarte, centella, en los plebeyos desiertos, en los porrones del fuego, era sólo el aroma de los frutos que amaba.Te encontré en el fondo del tiempo, con tus ojos de luz.')"></div>
+            <div class="book color-mint tall tilted-right" onclick="openPaper('José Ángel Buesa — Poema del Coloquio Tu cuerpo es una estatua de gracia y de hermosura, un templo donde habita la luz y la ternura; tus labios son la fuente de un fuego inacabable, y tu presencia entera, milagro incomparable.')"><span>🌿</span></div>
+            <div class="book color-red medium tilted-left" onclick="openPaper('Juan Ramón Jiménez — RetratoElla es así: la gracia hecha figura, la luz que cruza y que la sombra alegra; tiene en sus labios una dulce cura y en su mirada toda el alma entera. .')"></div>
+            <div class="book color-cream tall pattern-ribbon" onclick="openPaper('Federico Brac No te das una idea de como con algo tan simple y lejano como una foto mi cara se llena de brillo de solo pensar que puedo decirte sin apuro ni complejos que te amo, saber que toda tu personalidad, presencia, humor y pensar me hizo un lugar para hábitar en tu corazon.')"></div>
+            <div class="book color-pink short" onclick="openPaper('.')"><span>🍓</span></div>
+            <div class="book color-mint medium pattern-stripes" onclick="openPaper('.')"></div>
+            <div class="book color-red tall tilted-right" onclick="openPaper('.')"><span>🍓</span></div>
+            <div class="book color-cream medium pattern-dots" onclick="openPaper('.')"></div>
+            <div class="book color-pink tall" onclick="openPaper('.')"></div>
+        </div>
+        
+        <!-- Estante 2 -->
+        <div class="shelf">
+            <div class="book color-mint tall pattern-ribbon" onclick="openPaper('.')"></div>
+            <div class="book color-red short" onclick="openPaper('.')"><span>🍓</span></div>
+            <div class="book color-cream medium tilted-right pattern-stripes" onclick="openPaper('.')"></div>
+            <div class="book color-pink tall pattern-dots" onclick="openPaper('.')"></div>
+            <div class="book color-mint tall tilted-left" onclick="openPaper('.')"><span>🌿</span></div>
+            <div class="book color-red short pattern-stripes" onclick="openPaper('.')"></div>
+            <div class="book color-cream medium" onclick="openPaper('.')"><span>🍓</span></div>
+            <div class="book color-pink tall tilted-right pattern-ribbon" onclick="openPaper('P.')"></div>
+            <div class="book color-mint short pattern-dots" onclick="openPaper('')"></div>
+            <div class="book color-red medium" onclick="openPaper('.')"><span>🍓</span></div>
+            <div class="book color-cream tall pattern-stripes" onclick="openPaper('.')"></div>
+        </div>
+
+        <!-- Estante 3 -->
+        <div class="shelf">
+            <div class="book color-pink medium pattern-dots" onclick="openPaper('.')"></div>
+            <div class="book color-mint tall tilted-right pattern-ribbon" onclick="openPaper('.')"></div>
+            <div class="book color-red medium" onclick="openPaper('.')"><span>🍓</span></div>
+            <div class="book color-cream tall tilted-left pattern-stripes" onclick="openPaper('.')"></div>
+            <div class="book color-pink short" onclick="openPaper('.')"><span>🌿</span></div>
+            <div class="book color-mint medium pattern-dots" onclick="openPaper('.')"></div>
+            <div class="book color-red tall pattern-ribbon" onclick="openPaper('.')"></div>
+            <div class="book color-cream medium tilted-right" onclick="openPaper('.')"><span>🍓</span></div>
+            <div class="book color-pink tall pattern-stripes" onclick="openPaper('.')"></div>
+            <div class="book color-mint short" onclick="openPaper('.')"><span>🌿</span></div>
+            <div class="book color-red medium pattern-dots" onclick="openPaper(',')"></div>
+        </div>
+    </div>
+
+    <!-- Ventana emergente (Modal estilo papel) -->
+    <div id="paper-modal" class="modal">
+        <div class="paper">
+            <span class="close-btn" onclick="closePaper()">✖</span>
+            <p id="paper-text"></p>
+            <div class="paper-decoration">🍓</div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
