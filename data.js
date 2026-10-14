@@ -7791,22 +7791,24 @@ const INCLINACIONES = ["", "", "", "tilted-left", "tilted-right"];
 const ICONOS_EMOJI = ["🍓", "🌿", "☕", "📜", "⭐", "📖", "✨", "🌸", "🍂", "🕊️"];
 
 const BibliotecaManager = {
-    STORAGE_KEY: "biblioteca_luz_drive_v2",
-    CONFIG_KEY: "biblioteca_luz_config_v2",
+    STORAGE_KEY: "biblioteca_luz_drive_v3_completa",
+    CONFIG_KEY: "biblioteca_luz_config_v3_completa",
 
     obtenerCatalogo: function() {
         try {
             const guardado = localStorage.getItem(this.STORAGE_KEY);
             if (guardado) {
                 const parseado = JSON.parse(guardado);
-                if (parseado && parseado.categorias && parseado.categorias.length > 0) {
+                // Solo usar si tiene al menos 24 categorías completas
+                if (parseado && parseado.categorias && parseado.categorias.length >= 24) {
                     return parseado;
                 }
             }
         } catch (e) {
             console.warn("Error leyendo LocalStorage:", e);
         }
-        // Por defecto usar la biblioteca con los libros de tu Google Drive
+        // Cargar inmediatamente la colección completa de Google Drive con 504 libros
+        this.guardarCatalogo(BIBLIOTECA_DRIVE_DATA);
         return BIBLIOTECA_DRIVE_DATA;
     },
 
