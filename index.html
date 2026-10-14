@@ -3,77 +3,101 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Biblioteca de Fresas</title>
+    <title>La Gran Biblioteca de Fresas & Google Drive</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- Controles de música interactivos -->
-    <div class="music-controls">
-        <audio id="bg-music" loop>
-            <source src="track1.mp3" type="audio/mpeg">
-        </audio>
-        
-        <button id="play-btn" onclick="toggleMusic()">🎵 Reproducir Fresa</button>
-        
-        <div class="dropdown">
-            <button class="dropbtn" onclick="toggleMenu()">Cambiar Pista ▼</button>
-            <div class="dropdown-content" id="song-list">
-                <a href="#" onclick="changeSong('track1.mp3'); return false;">1. Lofi de Fresas</a>
-                <a href="#" onclick="changeSong('track2.mp3'); return false;">2. Melodía Relajante</a>
-                <a href="#" onclick="changeSong('track3.mp3'); return false;">3. Acústico</a>
+
+    <!-- CABECERA PRINCIPAL -->
+    <header class="library-header">
+        <div class="library-title-container">
+            <h1 class="library-title">
+                <span>🍓</span> La Gran Biblioteca <span>🍓</span>
+            </h1>
+            <p class="library-subtitle">Un santuario de lectura, poesía y estantes infinitos de Google Drive</p>
+        </div>
+    </header>
+
+    <!-- BARRA DE CONTROLES: MÚSICA, BUSCADOR Y DRIVE -->
+    <div class="top-toolbar">
+        <!-- Controles de música lofi -->
+        <div class="toolbar-group music-controls">
+            <audio id="bg-music" loop>
+                <source src="track1.mp3" type="audio/mpeg">
+            </audio>
+            
+            <button id="play-btn" onclick="toggleMusic()">🎵 Música Lofi</button>
+            
+            <div class="dropdown">
+                <button class="dropbtn" onclick="toggleMenu()">Cambiar Pista ▼</button>
+                <div class="dropdown-content" id="song-list">
+                    <a href="#" onclick="changeSong('track1.mp3'); return false;">🍓 1. Lofi de Fresas</a>
+                    <a href="#" onclick="changeSong('track2.mp3'); return false;">🌿 2. Melodía Relajante</a>
+                    <a href="#" onclick="changeSong('track3.mp3'); return false;">☕ 3. Acústico & Lluvia</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Buscador de libros en tiempo real -->
+        <div class="search-container">
+            <span class="search-icon">🔍</span>
+            <input type="text" id="search-input" class="search-input" placeholder="Buscar libro, autor o género..." autocomplete="off">
+        </div>
+
+        <!-- Botones de Google Drive y Carpeta Local -->
+        <div class="toolbar-group">
+            <button class="btn-fresa btn-secondary" onclick="openDriveConfig()" title="Conectar carpeta de Google Drive">
+                ☁️ Conectar Drive
+            </button>
+
+            <!-- Selector oculto de carpeta local -->
+            <input type="file" id="local-folder-input" webkitdirectory directory multiple style="display: none;">
+            <button class="btn-fresa btn-mint" onclick="document.getElementById('local-folder-input').click()" title="Cargar carpeta de libros desde tu computadora">
+                📂 Cargar Carpeta
+            </button>
+        </div>
+    </div>
+
+    <!-- BARRA DE NAVEGACIÓN / BREADCRUMBS (Visible al entrar a una categoría) -->
+    <div id="category-nav-bar" class="navigation-bar" style="display: none;">
+        <div class="breadcrumb-trail">
+            <span class="breadcrumb-link" onclick="navegarACategorias()">🏠 Salón Principal</span>
+            <span>›</span>
+            <span id="breadcrumb-category-name">Categoría</span>
+            <span id="breadcrumb-category-count" class="breadcrumb-count">0 libros</span>
+        </div>
+        <button class="btn-back" onclick="navegarACategorias()">
+            ← Volver a Categorías
+        </button>
+    </div>
+
+    <!-- EL GRAN MUEBLE DE LA BIBLIOTECA -->
+    <main class="bookshelf-outer-frame">
+        <!-- Los estantes dinámicos se generan aquí -->
+        <div id="library-shelves-container"></div>
+    </main>
+
+    <!-- MODAL 1: LECTOR DE LIBROS DIGITALES & GOOGLE DRIVE -->
+    <div id="reader-modal" class="modal">
+        <div class="reader-container">
+            <div class="reader-header">
+                <div class="reader-book-info">
+                    <h2 id="reader-title" class="reader-title">Título del Libro</h2>
+                    <span id="reader-author" class="reader-author">Autor • Categoría</span>
+                </div>
+                <div class="reader-actions">
+                    <button class="reader-btn" onclick="toggleFullScreenReader()" title="Pantalla completa">⛶ Pantalla Completa</button>
+                    <a id="reader-external-btn" href="#" target="_blank" class="reader-btn" title="Abrir directamente en Google Drive">↗ Abrir en Drive</a>
+                    <button class="reader-btn" onclick="closeReader()" title="Cerrar libro">✖ Cerrar</button>
+                </div>
+            </div>
+            <div class="reader-body">
+                <iframe id="reader-iframe" class="reader-iframe" src="about:blank" allow="autoplay"></iframe>
             </div>
         </div>
     </div>
 
-    <!-- Biblioteca de Madera -->
-    <div class="bookshelf">
-        <!-- Estante 1 -->
-        <div class="shelf">
-            <div class="book color-red tall pattern-stripes" onclick="openPaper('Pedro Salinas — Para vivir no quiero. Para vivir no quiero islas, palacios, torres.¡Qué alegría más altavivir en los pronombres!Quítate ya los trajes,las señas, los retratos;sé tú misma, sin sombra,sin anillos, sin sangre.')"></div>
-            <div class="book color-cream medium" onclick="openPaper('Amado Nervo — Amada Amada, en tus ojos de fuego y calma veo el reflejo de una aurora pura; hay en tus labios una dulce gracia y en tu sonrisa entera hermosura. Eres la luz que ilumina el camino y el centro exacto de mi destino.')"><span>🍓</span></div>
-            <div class="book color-pink short pattern-dots" onclick="openPaper('Pablo Neruda — Soneto XXII Cuántas veces, amor, te amé sin verte y tal vez sin recuerdo, sin reconocer tu mirada, sin mirarte, centella, en los plebeyos desiertos, en los porrones del fuego, era sólo el aroma de los frutos que amaba.Te encontré en el fondo del tiempo, con tus ojos de luz.')"></div>
-            <div class="book color-mint tall tilted-right" onclick="openPaper('José Ángel Buesa — Poema del Coloquio Tu cuerpo es una estatua de gracia y de hermosura, un templo donde habita la luz y la ternura; tus labios son la fuente de un fuego inacabable, y tu presencia entera, milagro incomparable.')"><span>🌿</span></div>
-            <div class="book color-red medium tilted-left" onclick="openPaper('Juan Ramón Jiménez — RetratoElla es así: la gracia hecha figura, la luz que cruza y que la sombra alegra; tiene en sus labios una dulce cura y en su mirada toda el alma entera. .')"></div>
-            <div class="book color-cream tall pattern-ribbon" onclick="openPaper('Federico Brac No te das una idea de como con algo tan simple y lejano como una foto mi cara se llena de brillo de solo pensar que puedo decirte sin apuro ni complejos que te amo, saber que toda tu personalidad, presencia, humor y pensar me hizo un lugar para hábitar en tu corazon.')"></div>
-            <div class="book color-pink short" onclick="openPaper('.')"><span>🍓</span></div>
-            <div class="book color-mint medium pattern-stripes" onclick="openPaper('.')"></div>
-            <div class="book color-red tall tilted-right" onclick="openPaper('.')"><span>🍓</span></div>
-            <div class="book color-cream medium pattern-dots" onclick="openPaper('.')"></div>
-            <div class="book color-pink tall" onclick="openPaper('.')"></div>
-        </div>
-        
-        <!-- Estante 2 -->
-        <div class="shelf">
-            <div class="book color-mint tall pattern-ribbon" onclick="openPaper('.')"></div>
-            <div class="book color-red short" onclick="openPaper('.')"><span>🍓</span></div>
-            <div class="book color-cream medium tilted-right pattern-stripes" onclick="openPaper('.')"></div>
-            <div class="book color-pink tall pattern-dots" onclick="openPaper('.')"></div>
-            <div class="book color-mint tall tilted-left" onclick="openPaper('.')"><span>🌿</span></div>
-            <div class="book color-red short pattern-stripes" onclick="openPaper('.')"></div>
-            <div class="book color-cream medium" onclick="openPaper('.')"><span>🍓</span></div>
-            <div class="book color-pink tall tilted-right pattern-ribbon" onclick="openPaper('P.')"></div>
-            <div class="book color-mint short pattern-dots" onclick="openPaper('')"></div>
-            <div class="book color-red medium" onclick="openPaper('.')"><span>🍓</span></div>
-            <div class="book color-cream tall pattern-stripes" onclick="openPaper('.')"></div>
-        </div>
-
-        <!-- Estante 3 -->
-        <div class="shelf">
-            <div class="book color-pink medium pattern-dots" onclick="openPaper('.')"></div>
-            <div class="book color-mint tall tilted-right pattern-ribbon" onclick="openPaper('.')"></div>
-            <div class="book color-red medium" onclick="openPaper('.')"><span>🍓</span></div>
-            <div class="book color-cream tall tilted-left pattern-stripes" onclick="openPaper('.')"></div>
-            <div class="book color-pink short" onclick="openPaper('.')"><span>🌿</span></div>
-            <div class="book color-mint medium pattern-dots" onclick="openPaper('.')"></div>
-            <div class="book color-red tall pattern-ribbon" onclick="openPaper('.')"></div>
-            <div class="book color-cream medium tilted-right" onclick="openPaper('.')"><span>🍓</span></div>
-            <div class="book color-pink tall pattern-stripes" onclick="openPaper('.')"></div>
-            <div class="book color-mint short" onclick="openPaper('.')"><span>🌿</span></div>
-            <div class="book color-red medium pattern-dots" onclick="openPaper(',')"></div>
-        </div>
-    </div>
-
-    <!-- Ventana emergente (Modal estilo papel) -->
+    <!-- MODAL 2: HOJA DE PAPEL VINTAGE (Para notas poéticas y cartas originales) -->
     <div id="paper-modal" class="modal">
         <div class="paper">
             <span class="close-btn" onclick="closePaper()">✖</span>
@@ -82,6 +106,49 @@
         </div>
     </div>
 
+    <!-- MODAL 3: CONFIGURACIÓN DE GOOGLE DRIVE -->
+    <div id="drive-config-modal" class="modal">
+        <div class="config-modal-content">
+            <span class="close-btn" onclick="closeDriveConfig()">✖</span>
+            <h2 class="config-title">☁️ Conectar tu Google Drive</h2>
+            
+            <div style="text-align: center;">
+                <span id="drive-sync-badge" class="status-badge status-disconnected">🟡 Modo Local / Muestra</span>
+            </div>
+
+            <p>Conecta tu carpeta de Google Drive con todos tus libros en PDF, EPUB o documentos organizados en subcarpetas por género.</p>
+
+            <div class="steps-list">
+                <strong>📌 Pasos rápidos para conectar:</strong>
+                <ol>
+                    <li>Organiza tu Google Drive con una carpeta principal y dentro subcarpetas por género (ej: <em>Novelas, Fantasía, Poesía, Filosofía</em>).</li>
+                    <li>Abre <a href="https://script.google.com" target="_blank" style="color: var(--strawberry-red); font-weight: bold;">Google Apps Script</a> y crea un nuevo proyecto.</li>
+                    <li>Copia y pega el código del archivo <strong>google-drive-script.gs</strong> que creamos en tu proyecto.</li>
+                    <li>Coloca el ID de tu carpeta de Drive en el script y haz clic en <strong>Implementar > Nueva implementación > Aplicación web</strong> (Acceso: Cualquier usuario).</li>
+                    <li>Pega aquí la URL que te genera Google:</li>
+                </ol>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="drive-script-url">URL de la Aplicación Web de Google:</label>
+                <input type="text" id="drive-script-url" class="form-input" placeholder="https://script.google.com/macros/s/.../exec">
+            </div>
+
+            <div id="drive-status-msg" style="margin-bottom: 15px; font-weight: bold; font-size: 0.95rem;"></div>
+
+            <div style="display: flex; gap: 10px; justify-content: flex-end; flex-wrap: wrap;">
+                <button class="btn-fresa btn-secondary" onclick="restaurarLibreroOriginal()">
+                    🔄 Restaurar Poemas Iniciales
+                </button>
+                <button class="btn-fresa" onclick="sincronizarGoogleDrive()">
+                    ⚡ Sincronizar Biblioteca
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCRIPTS -->
+    <script src="data.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
